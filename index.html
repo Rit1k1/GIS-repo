@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Simple GIS Map - Leaflet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+  <style>
+    body { margin:0; padding:0; }
+    #map { height: 100vh; }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+// Map initialize (India center)
+var map = L.map('map').setView([22.9734, 78.6569], 5);
+
+// OSM basemap
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
+
+// Marker example (Delhi)
+var marker = L.marker([28.6139, 77.2090]).addTo(map);
+marker.bindPopup("<b>Delhi</b><br>Capital of India").openPopup();
+
+// GeoJSON load
+fetch('data.geojson')
+  .then(response => response.json())
+  .then(data => {
+    L.geoJSON(data).addTo(map);
+  });
+</script>
+
+</body>
+</html>
